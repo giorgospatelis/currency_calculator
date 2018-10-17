@@ -8,7 +8,9 @@
       type:"post",
       data: {"show":"add-currency"},
       success: function(response){
-        $("#main").html(response);
+        $('#mainview').slideUp();
+        $("#mainview").html(response);
+        $('#mainview').slideDown();
       }
     });
   });
@@ -29,7 +31,7 @@
   /*
   * Converter functionality
   */
-  $('.base_currency').keypress(function(event){
+  $(document).on('keypress', '.base_currency', function(event){
     if(event.which < 46
     || event.which > 59) {
         event.preventDefault();
@@ -40,7 +42,7 @@
     }// prevent if dot already in value
   });
   
-  $('.base_currency').keyup(function(){
+  $(document).on('keyup', '.base_currency', function(){
     var val = $(this).val();
     var base = $(this).attr("id");
     var posting = $.post({
@@ -56,7 +58,7 @@
     });
   });
   
-  $('.select_base').change(function() {
+  $(document).on('change', '.select_base', function(){
     $(".base_currency").val(0);
     var new_base = $(".select_base option:selected").val();
     $(".base_currency").attr("id",new_base);
@@ -68,6 +70,35 @@
       $('#convert_to_currencies').slideUp();
       $('#convert_to_currencies').html(response);
       $('#convert_to_currencies').slideDown();
-    })
+    });
+  });
+  
+  /*
+  * Add new currency functionality
+  */
+  $(document).on('click', '.add-another-rate', function(event){
+    event.preventDefault();
+    var posting = $.post({
+      url:"requests.php",
+      data:{"add":"currency-rates"}
+    });
+    posting.done(function(response){
+      $('.rates-fields').append(response).slideDown();
+    });
+  });
+  
+  $(document).on('click', '.store-new-currency', function(event){
+    event.preventDefault();
+    var symbol = $('#new-symbol').val();
+    var name = $('#new-name').val();
+    
+    var data = decodeURI($( "form" ).serialize());
+    var posting = $.post({
+      url:"requests.php",
+      data:{"store":data}
+    });
+    posting.done(function(response){
+      $('.debug').append(response).slideDown();
+    });
   });
 })(jQuery);

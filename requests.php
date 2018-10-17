@@ -34,4 +34,18 @@ if(isset($_POST['show']) && $_POST['show']=="refresh-converter"){
 if(isset($_POST['show']) && $_POST['show']=="currency-converter"){
   echo $controller->getIndex();
 }
+
+if(isset($_POST['show']) && $_POST['show']=="add-currency"){
+  echo $controller->showAddCurrency();
+}
+
+if(isset($_POST['add']) && $_POST['add']=="currency-rates"){
+  echo $controller->addCurrencyRateRow();
+}
+
+if(isset($_POST['store'])){// && $_POST['add']=="currency-rates"){
+  //echo print_r($_POST,1);
+  echo print_r(unserialize($_POST['store']),1);
+  //echo $controller->addCurrencyRateRow();
+}
  ?>

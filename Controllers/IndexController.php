@@ -31,4 +31,11 @@ class IndexController
     return print_r($this->view->indexConverter(1,$this->currency->all()),1);
   }
   
+  public function showAddCurrency(){
+    return print_r($this->view->addNewCurrency($this->currency->all()),1);
+  }
+  
+  public function addCurrencyRateRow(){
+    return print_r($this->view->newCurrencyRateRow($this->currency->all()),1);
+  }
 }
