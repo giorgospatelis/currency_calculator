@@ -35,7 +35,7 @@ class CurrencyViews
     $html .= '<h2>To:</h2><div class="row">';
     foreach($currencies_array as $key=>$currency){
       if($key!=$base_id){
-        $html .= '<div class="col-4">'.$currency['name'].' <input type="text" name="to_currency" class="to_'.$key.'" readonly></div>';
+        $html .= '<div class="col-4"><span class="lbl_'.$key.'">'.$currency['name'].'</span> <input type="text" name="to_currency" class="to_'.$key.'" readonly></div>';
       }
       
     }

@@ -83,7 +83,15 @@ class Currency
   public function getRates(){
     return $this->rates;
   }
-    
+  
+  /**
+   * Returns an array with the possible target currencies, i.e. currency id,symbol,name except the base currency
+   * @var array
+   */
+  public function getTargetCurrencies(){
+    return $this->db_connection->getTargetCurrenciesByBase($this->id);
+  }
+  
   /**
    * Properties Setters
   */

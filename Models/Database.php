@@ -87,6 +87,23 @@ class Database
   }
   
   /**
+   * Returns an array with currency details (id,symbol,name)
+   * @param int $base_id
+   * @return array
+   */
+  public function getTargetCurrenciesByBase($base_id){
+    $currencies =[];
+    $query = "SELECT * FROM currencies WHERE id!=$base_id";
+    if($result = $this->db_connection->query($query)){
+      while($row = $result->fetch_assoc()){
+        $currencies[]=["id"=>$row['id'],"symbol"=>$row['symbol'],"name"=>$row['name']];
+      }
+      $result->free();
+    }
+    return $currencies;
+  }
+  
+  /**
    * Returns an array with currency details (symbol,name and rates)
    * @param string $symbol
    * @return array
