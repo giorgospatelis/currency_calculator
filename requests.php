@@ -5,7 +5,11 @@ if(!IS_AJAX) {die('You shouldn\'t be here!');}
 spl_autoload_register(function ($class_name) {
     include $class_name . '.php';
 });
+
 $currency = new \Models\Currency();
+$view = new \Views\CurrencyViews();
+$controller = new \Controllers\IndexController();
+
 if(isset($_POST['base_id']) && isset($_POST['value'])){
   $base_id = (int) strip_tags( trim( $_POST[ 'base_id' ] ) );
   $base_value = (double) strip_tags( trim( $_POST[ 'value' ] ) );
@@ -18,16 +22,16 @@ if(isset($_POST['base_id']) && isset($_POST['value'])){
   }
   echo json_encode($response,JSON_FORCE_OBJECT);
 }
+
 // Request data: {"show":"refresh-converter","base_id":new_base}
 if(isset($_POST['show']) && $_POST['show']=="refresh-converter"){
   $base_id = (int) strip_tags( trim( $_POST[ 'base_id' ] ) );
   $currency->setCurrencyById($base_id);
   $currencies = $currency->getTargetCurrencies();
-  $response = [];
-  foreach($currencies as $row){
-    $response[]=array((int)$row['id'],$row['name']);
-  }
-  echo json_encode($response, JSON_FORCE_OBJECT);
+  echo $view->convertToInputs($currencies);
 }
 
+if(isset($_POST['show']) && $_POST['show']=="currency-converter"){
+  echo $controller->getIndex();
+}
  ?>

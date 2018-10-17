@@ -1,16 +1,34 @@
 (function($){
-  
+  /*
+  * App navigation
+  */
   $("#add-currency").click(function(){
     $.ajax({
       url:"requests.php",
       type:"post",
-      data: {show:"add-currency"},
+      data: {"show":"add-currency"},
       success: function(response){
         $("#main").html(response);
       }
     });
   });
   
+  $("#currency-converter").click(function(){
+    $.ajax({
+      url:"requests.php",
+      type:"post",
+      data: {"show":"currency-converter"},
+      success: function(response){
+        $('#mainview').slideUp();
+        $("#mainview").html(response);
+        $('#mainview').slideDown();
+      }
+    });
+  });
+  
+  /*
+  * Converter functionality
+  */
   $('.base_currency').keypress(function(event){
     if(event.which < 46
     || event.which > 59) {
@@ -39,6 +57,7 @@
   });
   
   $('.select_base').change(function() {
+    $(".base_currency").val(0);
     var new_base = $(".select_base option:selected").val();
     $(".base_currency").attr("id",new_base);
     var posting = $.post({
@@ -46,20 +65,9 @@
       data:{"show":"refresh-converter","base_id":new_base}
     });
     posting.done(function(response){
-      var data = $.parseJSON(response);
-      var target_inputs = [];
-      var inputs = $('input[name="to_currency"]').attr('class').toArray();
-      console.log(typeof(inputs)+"-"+inputs);
-      // for(var i in data){
-      //   var target_input = ".to_"+data[i][0];
-      //   var target_lbl = ".lbl_"+data[i][0];
-      //   $(target_input).val(data[i][1]);
-      // }
-      // $('.results').append(response);
-      
-      // var data = $.parseJSON(response);
-      // $('.results').append(data);
+      $('#convert_to_currencies').slideUp();
+      $('#convert_to_currencies').html(response);
+      $('#convert_to_currencies').slideDown();
     })
-    
   });
 })(jQuery);

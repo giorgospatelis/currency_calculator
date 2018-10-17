@@ -26,7 +26,7 @@ class IndexController
     $this->currency = new \Models\Currency();
     $this->view = new \Views\CurrencyViews();
   }
-  
+    
   public function getIndex(){
     return print_r($this->view->indexConverter(1,$this->currency->all()),1);
   }

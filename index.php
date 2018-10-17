@@ -44,7 +44,7 @@ $page = new \Controllers\IndexController();
   <section id="maincontent">
     <div class="container">
       <div id="main">
-        <div class="row">
+        <div class="row" id="mainview">
         
           <?= $page->getIndex(); ?>
         </div>
